@@ -39,23 +39,22 @@ app.post('/signin', (req, res) => {
 	if (req.body.email === database.users[0].email && 
 		req.body.password === database.users[0].password) {
 		console.log(email);
-		return res.json('success');
+		return res.json(database.users[0]);
 	} else {
-		return res.status(400).json('error logging in');
+		res.status(400).json('error logging in');
 	}
 });
 
 
 app.post('/register', (req, res) => {
 	const { email, name, password } = req.body;
-	bcrypt.hash(myPlaintextPassword, saltRounds, function(err, hash) {
-    // Store hash in your password DB.
-	});
+	// bcrypt.hash(myPlaintextPassword, saltRounds, function(err, hash) {
+ //    // Store hash in your password DB.
+	// });
 	database.users.push({
 		id: '125',
 		name: name,
 		email: email,
-		password: password,
 		entries: 0,
 		joined: new Date()
 	})
@@ -77,7 +76,7 @@ app.get('/profile/:id', (req, res) => {
 	}
 })
 
-app.post('/image', (req, res) => {
+app.put('/image', (req, res) => {
 	const { id } = req.body;
 	let found = false;
 	database.users.forEach(user => {

@@ -36,9 +36,9 @@ app.get('/', (req, res)=> {
 });
 
 app.post('/signin', (req, res) => {
+
 	if (req.body.email === database.users[0].email && 
 		req.body.password === database.users[0].password) {
-		console.log(email);
 		return res.json(database.users[0]);
 	} else {
 		res.status(400).json('error logging in');
@@ -78,6 +78,7 @@ app.get('/profile/:id', (req, res) => {
 
 app.put('/image', (req, res) => {
 	const { id } = req.body;
+	console.log(id)''
 	let found = false;
 	database.users.forEach(user => {
 		if (user.id === id) {

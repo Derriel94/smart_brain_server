@@ -1,9 +1,22 @@
 const express = require('express');
 const cors = require('cors');
 const bcrypt = require('bcrypt');
-const saltRounds = 10;
+const knex = require('knex');
+
+const postgrestable = knex({
+	client: 'pg',
+	connection: {
+		host: '127.0.0.1',
+		user:  'postgres',
+		password: '',
+		database: 'smart-brain'
+	}
+});
+
+console.log(postgrestable.select('*').from('users'));
 
 const app = express();
+const saltRounds = 10;
 
 app.use(express.urlencoded({extended: false}));
 app.use(express.json());
@@ -37,12 +50,16 @@ app.get('/', (req, res)=> {
 
 app.post('/signin', (req, res) => {
 
-	if (req.body.email === database.users[0].email && 
-		req.body.password === database.users[0].password) {
-		return res.json(database.users[0]);
-	} else {
-		res.status(400).json('error logging in');
-	}
+	database.users.map(user => {
+		if (req.body.email === database.users[0].email && 
+			req.body.password === database.users[0].password) {
+			return res.json(database.users[0]);
+		} else {
+			res.status(400).json('error logging in');
+		}
+		
+	})
+
 });
 
 

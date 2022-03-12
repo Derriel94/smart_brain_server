@@ -8,12 +8,14 @@ const postgrestable = knex({
 	connection: {
 		host: '127.0.0.1',
 		user:  'postgres',
-		password: '',
+		password: 'test',
 		database: 'smart-brain'
 	}
 });
 
-console.log(postgrestable.select('*').from('users'));
+postgrestable.select('*').from('users').then(data => {
+	console.log(data);
+})
 
 const app = express();
 const saltRounds = 10;
@@ -65,18 +67,18 @@ app.post('/signin', (req, res) => {
 
 app.post('/register', (req, res) => {
 	const { email, name, password } = req.body;
-	// bcrypt.hash(myPlaintextPassword, saltRounds, function(err, hash) {
- //    // Store hash in your password DB.
-	// });
-	database.users.push({
-		id: '125',
-		name: name,
+	knex('users')
+	.returning('*')
+	.insert({
 		email: email,
-		entries: 0,
+		name: name, 
 		joined: new Date()
+	}).then(user => {
+		//grabs the last item in thedatabase
+		res.json(user[0]);
 	})
-							//grabs the last item in thedatabase
-	res.json(database.users[database.users.length-1])
+	.catch(err=> res.status(400).json('unable to register'))
+				
 });
 
 app.get('/profile/:id', (req, res) => {

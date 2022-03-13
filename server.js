@@ -39,6 +39,7 @@ app.get('/profile/:id', (req, res) => {profile.handleProfileGet(req, res, postgr
 
 app.put('/image', (req, res) => {image.handleImage(req, res, postgrestable)})
 
+app.post('/imageurl', (req, res) => ( image.handleApiCall(req, res)))
 //process.env chooses a port that is given, if it is given even.
 app.listen(process.env.PORT || 3001, ()=> {
 	console.log("appp is here")

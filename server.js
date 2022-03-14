@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const knex = require('knex');
 const register = require('./controllers/Register.js');
-const signin = require('./controllers/Signin.js');
+const signin = require('./controllers/SignIn.js');
 const profile = require('./controllers/Profile.js');
 const image = require('./controllers/Image.js');
 

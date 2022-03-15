@@ -6,7 +6,7 @@ const handleRegister = (req, res, postgrestable, bcrypt, saltRounds) => {
     postgrestable.transaction(trx => {
       trx.insert({
         hash: hash,
-        email: email
+        email: loginEmail[0].email
       })
       .into('login')
       .returning('email')
